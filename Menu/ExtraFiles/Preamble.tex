@@ -1,0 +1,208 @@
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[top=2cm, bottom=2cm, textwidth=17cm]{geometry}
+\usepackage[top=1cm, bottom=0.7cm, textwidth=17cm]{geometry} %ful-fix för att få plats
+\usepackage[x11names]{xcolor}
+\usepackage{comment}
+\usepackage{longtable}
+\usepackage{transparent}
+\usepackage{graphicx}
+\usepackage{eso-pic}
+\usepackage{epstopdf}
+\usepackage{xifthen}
+%\usepackage{fullpage}
+\usepackage{etoolbox}
+\usepackage{xparse}
+\usepackage{twoopt}
+\usepackage{xargs}
+\usepackage{array} 
+\usepackage{comment}
+
+\pagenumbering{gobble}
+
+%==================================================================== ====================%
+%                                                                                        %
+%            						Function definitions								 %
+%               Do not fiddle with this if you don't know what you are doing.            %
+%                                                                                        %
+%========================================================================================%
+% I fiddle with whatever I want! #anarchy
+%======== Defines text size and style =======%
+% used for den
+\newcommand*\fontstyle[1]{%
+  {\fontsize{14}{18}\sffamily{#1}}
+}
+
+% used for prices
+\newcommand*\pricestyle[1]{%
+  {\fontsize{12}{16}\normalfont#1}
+}
+
+%%% Test for new font %%%
+%\usepackage{fontspec}
+
+%\setmainfont{HelveticaNeue}[
+%    Path=./ExtraFiles/font-HelveticaNeue/,
+%    Extension = .ttf,
+%    UprightFont=*-Roman,
+%    BoldFont=*-Bold,
+%    ItalicFont=*-Italic,
+%    BoldItalicFont=*-BoldItalic
+%    ]
+
+
+  
+% colorize text
+\newcommand*\ColText[1]{\textcolor{Goldenrod3}{#1}}
+
+
+%========= Defines two different environments ==========%
+
+
+% environment for anything with one description and one price
+\newenvironment{menuSection}[1]
+{
+    \pagebreak[
+3]
+    \begin{longtable}{p{0.2cm} p{12.5cm} r r}
+    \multicolumn{2}{l}{
+        \fontsize{26}{34}\bf\selectfont\ColText{#1}
+    }
+    \\ [0.4cm] \endhead \nopagebreak
+}
+{
+    \end{longtable}
+    \vspace{-0.4cm}
+    \pagebreak[3]
+}
+
+% environment for anything with one description and type and price
+\newenvironment{beerSection}[3]
+{
+    \pagebreak[3]
+    \begin{longtable}{p{0.2cm} p{11.5cm} r r}
+    \multicolumn{2}{l}{
+        \fontsize{26}{34}\bf\selectfont\ColText{#1}
+    }
+    & \makebox[1.2cm][c]{\pricestyle{\underline{#2}}}
+    & \makebox[1.2cm][c]{\pricestyle{\underline{#3}}}
+    \\ [0.4cm] \endhead \nopagebreak
+}
+{
+    \end{longtable}
+    \vspace{-0.4cm}
+    \pagebreak[3]
+}
+
+
+% environment for anything with one description and two prices
+\newenvironment{whiskySection}[3]
+{
+    \pagebreak[3]
+    \begin{longtable}{p{0.2cm} p{11.5cm} r r}
+    \multicolumn{2}{l}{
+        \fontsize{26}{34}\bf\selectfont\ColText{#1}
+    }
+    & \makebox[1.2cm][c]{\pricestyle{\underline{#2}}}
+    & \makebox[1.2cm][c]{\pricestyle{\underline{#3}}}
+    \\ [0.3cm] \endhead \nopagebreak
+}
+{
+    \end{longtable}
+    \vspace{-0.5cm}
+    \pagebreak[3]
+}
+
+
+
+% environment for anything with one description, one typ/origin and two prices
+%%% UNDER CONSTRUCTION %%%
+\newenvironment{whiskySectionOrigin}[4]
+{
+    \pagebreak[3]
+    \begin{longtable}{l{0.2cm} p{10.5cm} r r}
+    \multicolumn{2}{l}{
+        \fontsize{26}{34}\bf\selectfont\ColText{#1}
+    }
+    & \makebox[1.2cm][c]{\pricestyle{\underline{#2}}}
+    & \makebox[1.2cm][c]{\pricestyle{\underline{#3}}}
+    & \makebox[1.2cm][c]{\pricestyle{\underline{#4}}}
+    \\ [0.3cm] \endhead \nopagebreak
+}
+{
+    \end{longtable}
+    \vspace{0.4cm}
+    \pagebreak[3]
+}
+
+
+%\definecolor{}{} this was causing an error, don't know what to to about it.
+
+
+%========== Defines list item appearance ===========%  
+
+% The definition of the beer/cider/misc layout.
+\newcommand*\beer[2]{
+    & \fontstyle{#1}
+    & & \makebox[1.4cm][r]{\pricestyle{#2 kr}}
+    \\ [1.3ex] % <============================================== Radavstånd för öl/cider etc.
+    \nopagebreak[4]
+}
+
+% The definition of the Beer (with style) layout.
+\newcommand*\beernew[3]{
+    & \fontstyle{#1}
+    & \makebox[1.2cm][r]{\pricestyle{#2}}
+    & \makebox[1.2cm][r]{\pricestyle{#3 kr}}
+    \\ [1.3ex ] % <============================================== Radavstånd för Sprit
+    \nopagebreak[4]
+}
+
+
+% The definition of the spirits (double priced) layout.
+
+\newcommand*\spirit[3]{
+    & \fontstyle{#1}
+    & \makebox[1.2cm][r]{\pricestyle{#2 kr}}
+    & \makebox[1.2cm][r]{\pricestyle{#3 kr}}
+    \\ [1.2ex ] % <============================================== Radavstånd för Sprit
+    \nopagebreak[4]
+}
+
+
+% The definition of the spirits (double priced) layout with origin.
+%%% UNDER CONSTRUCTION %%%
+\newcommand*\spiritnew[4]{
+    & \fontstyle{#1}
+    & \makebox[1.2cm][r]{\pricestyle{#2}}
+    & \makebox[1.2cm][r]{\pricestyle{#3 kr}}
+    & \makebox[1.2cm][r]{\pricestyle{#4 kr}}
+    \\ [1.2ex ] % <============================================== Radavstånd för Sprit
+    \nopagebreak[4]
+}
+
+% Gives a smaller headline inside an environment. Use for today's special etc.
+\newcommand*\specialBeer[1]{
+    \multicolumn{2}{l}{
+        \fontsize{18}{34}\bf\selectfont\ColText{#1}
+    }
+    \\ [1.5ex]\nopagebreak[4]
+}
+
+% The command enables the transparent rydbergs image in the background of the first page
+\newcommand{\FrontSeal}[1]{
+    \AddToShipoutPicture*{\AtPageCenter{
+    \makebox(0,0){\transparent{0.15}{\includegraphics
+	[width=0.9\paperwidth]{#1}}}}}}
+
+
+
+
+\usepackage{sectsty}   % For custom section fonts
+\usepackage{fancyhdr}  % For custom headers/footers
+\usepackage{lmodern}   % For modern fonts
+\usepackage{tikz}      % For drawing decorative elements
+\usepackage{xcolor}    % For colored text
+\usepackage{calligra}  % For a fancy script font
+\usepackage[T1]{fontenc}  % For proper font encoding

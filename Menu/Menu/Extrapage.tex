@@ -1,0 +1,48 @@
+\newpage
+
+% Center the content vertically on the page
+\begin{center}
+\vspace*{\fill}  % Fill the top space to push content down
+
+% Decorative line
+\begin{tikzpicture}
+    \draw[thick] (0,0) -- (\textwidth,0);
+\end{tikzpicture}
+
+\vspace{0.6cm}  % Increase the space between the line and the title
+
+% Title of the section in Goldenrod3 with a fancy font
+{\fontsize{36}{44}\selectfont\textbf{\textcolor{Goldenrod3}{Rydberg's Shots}}}
+
+\vspace{1cm}  % Increase the space between the title and the text
+
+% Fancy yet less cursive font for the shot names and prices
+\renewcommand{\arraystretch}{1.8}  % Increase the space between rows
+\begin{tabular}{p{10cm} r}
+    \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont Vodka}        & \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont 30 kr} \\
+    \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont Tequila}      & \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont 30 kr} \\
+    \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont Jägermeister} & \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont 30 kr} \\
+    \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont Fireball}     & \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont 30 kr} \\
+
+    \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont Minttu}     & \fontfamily{ugm}\selectfont{\fontsize{22}{26}\selectfont 30 kr} \\
+\end{tabular}
+\renewcommand{\arraystretch}{1}  % Reset the row spacing to normal
+
+\vspace{0.8cm}  % Increase the space between the text and the bottom line
+
+% Decorative line
+\begin{tikzpicture}
+    \draw[thick] (0,0) -- (\textwidth,0);
+\end{tikzpicture}
+
+\vspace*{\fill}  % Fill the bottom space to push content up
+
+\end{center}
+
+
+\begin{figure}[h]
+    \noindent
+    \hfill % Pushes the content to the right
+    \includegraphics[width=0.3\textwidth]{Figures/Approval1.png}
+    \label{fig:approval}
+\end{figure}

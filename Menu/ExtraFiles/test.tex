@@ -1,0 +1,230 @@
+\documentclass[12pt, twoside]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[textwidth=15cm]{geometry}
+\usepackage[x11names]{xcolor}
+\usepackage{comment}
+\usepackage{longtable}
+\usepackage{transparent}
+\usepackage{graphicx}
+\usepackage{eso-pic}
+\usepackage{epstopdf}
+\usepackage{afterpage}
+
+%\pagenumbering{}
+
+%========================================================================================%
+%                                                                                        %
+%                					Function definitions								 %
+%               Do not fiddle with this if you don't know what you are doing.            %
+%                                                                                        %
+%========================================================================================%
+
+%======== Defines text size and style =======%
+% used for descriptions 
+\newcommand*\fontstyle[1]{%
+  {\fontsize{15}{20}\sffamily{#1}}
+}
+
+% used for prices
+\newcommand*\pricestyle[1]{%
+  {\fontsize{14}{20}\normalfont#1}
+}
+  
+% colorize text
+\newcommand*\ColText[1]{\textcolor{Goldenrod3}{#1}}
+
+
+%========= Defines two different environments ==========%
+
+% environment for anything with one description and one price
+\newenvironment{menuSection}[1]
+  {
+    \begin{longtable}{p{0cm}p{12cm}p{1.5cm}}
+    {\fontsize{30}{34}\bf\selectfont\ColText{#1} }
+    \\ \nopagebreak
+  }
+{\end{longtable}
+hukh \pagebreak[3] \\ }
+
+% environment for anything with one description and two prices
+\newenvironment{whiskySection}[1]
+  {
+    \pagebreak[3]\noindent\begin{longtable}{p{0.3cm}p{10cm}p{1.5cm}p{1.5cm}}
+    {\endfirsthead\fontsize{30}{34}\bf\selectfont\ColText{#1}} && \pricestyle{\underline{2 cl}} & \pricestyle{\underline{4 cl}}
+    \\[0.4cm]\nopagebreak
+  }  
+{\end{longtable}}
+
+
+%========== Defines list item appearance ===========%  
+
+% The definition of the beer/cider/misc layout.
+\newcommand*\beer[2]{
+& \fontstyle{#1} & \pricestyle{#2 kr} \nopagebreak \\ [1.7ex]\nopagebreak[4]%
+}
+
+% The definition of the spirits (double priced) layout.
+\newcommand*\spirit[3]{%
+&\fontstyle{#1} & \pricestyle{#2 kr} & \pricestyle{#3 kr}\\ [1.7ex]\nopagebreak[4]%
+}
+
+
+% The command enables the transparent rydbergs image in the background of the first page
+\newcommand{\FrontSeal}[1]{%
+    \AddToShipoutPicture*{\AtPageCenter{%
+    \makebox(0,0){\transparent{0.1}{\includegraphics%
+	[width=0.9\paperwidth ]{#1}}}}}}
+    
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{document}
+hej
+\newpage
+\include{frontpage}
+%========================================================================================%
+%                                                                                        %
+%        								Öl												 %
+%                                                                                        %
+%========================================================================================%
+
+% This is the beer section. The group menuSection fixes a headline and sorts indentations
+% out. 
+% Items (beers) are added by the command:
+% \beer{Beer name}{Price}
+%
+% if a desription is so long that it breaks the line you must add \\[-1ex] to the end
+% ex: \beer{En öl som har ett jättelångt och jobbig namn... jätte jätte jättelångt}{pris}\\[-1ex]
+
+
+\begin{menuSection}{Beer}
+
+\beer{Bavaria}{15}
+\beer{Bavaria Wit 0.0\% alcohol free}{15}
+\beer{Budvar Premium}{20}
+\beer{Budvar Dark 50 cl}{25}
+\beer{Lindemans Apple 25 cl}{20}
+\beer{Black Isle}{30}
+\beer{Weinstephaner}{30}
+\beer{Aecht Schlenkerla Rauchbier 50 cl}{35}
+\end{menuSection}
+
+%========================================================================================%
+%                                                                                        %
+%            							Cider											 %
+%                                                                                        %
+%========================================================================================%
+
+% Beers and ciders are hadled similarly, so the cider entry command is still (counderintuitivly)
+% \beer{cider name}{price}
+
+\begin{menuSection}{Cider}
+\beer{Angry Orchard}{25}
+\beer{Green Goblin}{35}
+\end{menuSection}
+
+
+%========================================================================================%
+%                                                                                        %
+%                    					Wine        									 %
+%                                                                                        %
+%========================================================================================%
+
+\begin{menuSection}{Wine}
+\beer{Red wine Collino Rosso 1 glass}{25}
+\beer{White wine Collino Bianco  1 glass}{25}
+\end{menuSection}
+
+var hamnar detta?
+
+\newpage
+\afterpage{\clearpage}
+%========================================================================================%
+%                                                                                        %
+%                						Miscellaneous									 %
+%                                                                                        %
+%========================================================================================%
+
+
+\begin{menuSection}{Miscellaneous}
+\beer{Soda}{10}
+\beer{Nut mix}{5}
+\beer{Billy's pan pizza}{15}
+\end{menuSection}
+
+
+%========================================================================================%
+%                                                                                        %
+%                						Spirits											 %
+%                                                                                        %
+%========================================================================================%
+
+\vspace{-1cm}
+\begin{menuSection}{Spirits}\\& \emph{Prices for 4 cl}
+\beer{House spirits}{25}
+\\ \emptyline \\  & \noindent\emph{We appretiate if whisky and cocktail orders are postponed until after the food service is done.}&
+
+\end{menuSection}
+\\
+%Det uppskattas om beställning av drinkar och whiskey uppskjutes till efter matserveringen
+
+%========================================================================================%
+%                                                                                        %
+%            							Whisky											 %
+%                                                                                        %
+%========================================================================================%
+
+% Tjenare Katja!
+% 
+% När du vill lägga till en sprit skriv \spirit{spritens namn}{pris för 2:a}{pris för 4:a} innanför \begin{whiskySection}{Whisky}   ...    \end{whiskySection}
+% De sorteras inte av sig själva, så skriv in dem alfabetiskt och korrigera gärna priser, jag vet att vissa av dem är lite låga.
+%
+
+
+
+
+\begin{whiskySection}{Whisky}
+
+\spirit{Ardbeg Corryvreckan}{20}{40}
+
+
+\spirit{Auchentoshan 12y}{15}{30}
+
+
+\spirit{Jura Superstition}{20}{35}
+
+\spirit{Lagavulin 16y}{20}{35}
+
+\spirit{Laphroaig Quarter Cask}{15}{30}
+
+\spirit{Laphroaig 18y}{20}{40}
+
+\spirit{Oban}{15}{30}
+
+\spirit{Talisker 10y}{15}{25}
+
+\end{whiskySection}
+
+
+
+
+%========================================================================================%
+%    									RUM												 %
+%========================================================================================%
+\begin{comment}
+
+\begin{whiskySection}{Rums}
+
+\spirit{Ron Zacapa}{35 kr}
+
+
+\spirit{The Kraken}{25 kr}
+
+
+\end{whiskySection}
+
+\end{comment}
+
+
+\end{document}
