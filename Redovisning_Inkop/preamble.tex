@@ -1,0 +1,71 @@
+\usepackage[utf8]{inputenc}
+
+
+% Set your default font encoding.
+\usepackage[T1]{fontenc}
+
+% Set default language priority order.
+\usepackage[english]{babel}
+
+% Set default margins.
+\usepackage[a4paper,margin=25mm,headsep=5mm,headheight=12pt]{geometry}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}  % Mathematics
+
+\usepackage{hyperref} 
+\hypersetup{colorlinks, 
+    citecolor=black,
+    filecolor=black, 
+    linkcolor=black,
+    urlcolor=black
+      }
+
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[separate-uncertainty=true]{siunitx} %Use this for writing SI units
+\sisetup{
+  range-phrase=--,
+  detect-all,
+  output-decimal-marker={.},
+  range-units=single,
+  per-mode=reciprocal,
+  separate-uncertainty=false
+}
+\usepackage{physics} %A lot of useful short commands for writing math/physics
+\AtBeginDocument{\RenewCommandCopy\qty\SI}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage[toc,acronym]{glossaries}
+\usepackage{booktabs} % For nice tables
+\usepackage{fancyhdr} % For header and footer
+\usepackage{lipsum}
+\usepackage{lastpage} % For page counter
+\usepackage{svg} % Makes it possible to use .svg files 
+\usepackage{float} % Just [H] for placing figures
+\usepackage{comment} % Use \begin{comment}
+\usepackage{listings} % Enables source code listings
+\definecolor{codegreen}{rgb}{0,0.75,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.96,0.97}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codepurple},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{magenta},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
