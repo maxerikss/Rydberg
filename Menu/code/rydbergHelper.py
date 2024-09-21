@@ -88,6 +88,11 @@ class Product:
         print(f"Price: {self.price}")
         print(f"Balance: {self.balance}")
 
+    def printLatex(self, out):
+        string = r"\beernew{" + self.name + "}{" + self.category + "}{" + str(self.price) + "}\n"
+        print(string, file=out)
+
+
 listProducts = []
 
 
@@ -96,7 +101,7 @@ for i in productsData:
         i.get("uuid"),
         i.get("name"),
         i.get("category").get("name"),
-        i.get('variants')[0].get("price").get("amount")/100,
+        int(i.get('variants')[0].get("price").get("amount")/100),
         "--"
         )
     )
@@ -109,6 +114,6 @@ for i in stockData:
             j.balance = balance
         
 
-for i in listProducts:
-    print("--------------------------")
-    i.print()
+with open("test.tex", "w") as file:
+    listProducts[0].printLatex(file)
+    listProducts[1].printLatex(file)
