@@ -91,9 +91,13 @@ class Product:
         print(f"Price: {self.price}")
         print(f"Balance: {self.balance}")
 
-    def printLatex(self, out):
-        string = r"\beernew{" + self.name + "}{" + self.category + "}{" + str(self.price) + "}\n"
+    def printLatex(self, type, out):
+        if type in ["beer", "wine"]:
+            string = r"\beernew{" + self.name + "}{" + self.category + "}{" + str(self.price) + "}\n"
+        elif type == "cider":
+            string = r"\beer{" + self.name + "}{" + self.price + "}\n"
         print(string, file=out)
+
 
 
 class ProductList:
@@ -122,10 +126,18 @@ class ProductList:
             self.products.append(newProduct)
     
     def printLatex(self, type, out):
-        for i in self.products:
-            if type == "beer":
+        if type == "beer":
+            print(r"\begin{beerSection}{Beer}{Style}{Price}" + "\n", file=out)
+            for i in self.products:
                 if i.category in ["Beer"]:
                     i.printLatex(out)
+        elif type == "cider":
+            print(r"\begin{menuSection}{Cider}" + "\n", file=out)
+            if i.category in ["Cider"]:
+                i.printLatex(out)
+        elif type == "wine":
+            if i.category in ["Wine"]:
+                i.printLatex(out)
                 
 
 products = ProductList()
