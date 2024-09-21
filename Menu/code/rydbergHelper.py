@@ -95,7 +95,7 @@ class Product:
         if type in ["beer", "wine"]:
             string = r"\beernew{" + self.name + "}{" + self.category + "}{" + str(self.price) + "}\n"
         elif type == "cider":
-            string = r"\beer{" + self.name + "}{" + self.price + "}\n"
+            string = r"\beer{" + self.name + "}{" + str(self.price) + "}\n"
         print(string, file=out)
 
 
@@ -124,23 +124,30 @@ class ProductList:
                     newProduct.balance = balance
 
             self.products.append(newProduct)
-    
+
+        self.products.sort(key=lambda product: product.name)
+
     def printLatex(self, type, out):
         if type == "beer":
             print(r"\begin{beerSection}{Beer}{Style}{Price}" + "\n", file=out)
             for i in self.products:
                 if i.category in ["Beer"]:
-                    i.printLatex(out)
+                    i.printLatex(type, out)
         elif type == "cider":
             print(r"\begin{menuSection}{Cider}" + "\n", file=out)
-            if i.category in ["Cider"]:
-                i.printLatex(out)
+            for i in self.products:
+                if i.category in ["Cider"]:
+                    i.printLatex(type, out)
         elif type == "wine":
-            if i.category in ["Wine"]:
-                i.printLatex(out)
+            print(r"\begin{beerSection}{Wine}{Style}{Price}" + "\n", file=out)
+            for i in self.products:
+                if i.category in ["Wine"]:
+                    i.printLatex(type, out)
                 
 
 products = ProductList()
 products.addInventory(productsData, stockData)
-with open("test.tex", "w") as file:
-    products.printLatex("beer", file)
+with open("beer.tex", "w") as beer, open("cider.tex", "w") as cider, open("wine.tex", "w") as wine:
+    products.printLatex("beer", beer)
+    products.printLatex("cider", cider)
+    products.printLatex("wine", wine)
