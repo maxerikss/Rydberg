@@ -1,6 +1,7 @@
 import sys,os
 import requests
 import pandas as pd
+from typing import *
 
 # +------------------------+
 # |   ###    ########  ####|
@@ -63,6 +64,8 @@ stockData = []
 for i in stockResponse:
     stockData.extend(i.json())
 
+
+
 # +---------------------------------------------+
 # | ######  ##          ###     ######   ###### |
 # |##    ## ##         ## ##   ##    ## ##    ##|
@@ -93,27 +96,39 @@ class Product:
         print(string, file=out)
 
 
-listProducts = []
+class ProductList:
+    def __init__(self):
+        self.products: List[Product] = []
 
-
-for i in productsData:
-    listProducts.append(Product(
-        i.get("uuid"),
-        i.get("name"),
-        i.get("category").get("name"),
-        int(i.get('variants')[0].get("price").get("amount")/100),
-        "--"
-        )
-    )
-
-for i in stockData:
-    uuid = i.get("productUuid")
-    balance = i.get("balance")
-    for j in listProducts:
-        if j.uuid == uuid and j.category in ["Beer", "Cider", "Wine"]:
-            j.balance = balance
+    def add(self, newProduct):
+        self.products.append(newProduct)
+    
+    def addInventory(self, productData, stockData):
+        for i in productData:
+            newProduct = Product(
+                i.get("uuid"),
+                i.get("name"),
+                i.get("category").get("name"),
+                int(i.get('variants')[0].get("price").get("amount")/100),
+                "--"
+            )
         
+            for j in stockData:
+                uuid = j.get("productUuid")
+                balance = j.get("balance")
+                if newProduct.uuid == uuid and newProduct.category in ["Beer", "Cider", "Wine"]:
+                    newProduct.balance = balance
 
+            self.products.append(newProduct)
+    
+    def printLatex(self, type, out):
+        for i in self.products:
+            if type == "beer":
+                if i.category in ["Beer"]:
+                    i.printLatex(out)
+                
+
+products = ProductList()
+products.addInventory(productsData, stockData)
 with open("test.tex", "w") as file:
-    listProducts[0].printLatex(file)
-    listProducts[1].printLatex(file)
+    products.printLatex("beer", file)
