@@ -9,8 +9,8 @@ from simple_term_menu import TerminalMenu
 # ------------------------- Constants ------------------------------
 # ==================================================================
 
-beerTypes = ["Beer", "Pale Ale", "Ale", "Belgian Ale", "Stout", "Porter", "Lager", "Weissbier", "Spiced Beer"]
-inventoryCategories = ["Beer", "Pale Ale", "Ale", "Belgian Ale", "Stout", "Porter", "Lager", "Weissbier", "Spiced Beer", "Cider", "Mixed Drink" ,"Wine"]
+beerTypes = ["Beer", "Lager", "Weissbier", "Ale", "Pale Ale", "Belgian Ale", "Porter", "Stout", "Sour Beer", "Spiced Beer"]
+inventoryCategories = ["Beer", "Pale Ale", "Ale", "Belgian Ale", "Stout", "Porter", "Lager", "Sour Beer", "Weissbier", "Spiced Beer", "Cider", "Mixed Drink" ,"Wine"]
 
 # ==================================================================
 # ----------------------- Reading API ------------------------------
@@ -99,8 +99,17 @@ class ProductList:
     def __init__(self):
         self.products: List[Product] = []
 
-    def _printTypes(self, type):
-        if type == "beer":
+    def _printTypes(self, type, productList: List[Product], out, weekly="", standardList=[], regular=False):
+            if regular:
+                for style in beerTypes:
+                    for beer in productList:
+                        if beer.category == style and beer.name != weekly and beer.uuid in standardList and int(beer.balance) > 0:
+                            beer.printLatex(type, out)
+            else:
+                for style in beerTypes:
+                    for beer in productList:
+                        if beer.category == style and beer.name != weekly and beer.uuid not in standardList and int(beer.balance) > 0:
+                            beer.printLatex(type, out)
            
             
 
@@ -158,17 +167,13 @@ class ProductList:
                 # ...Printing Regular Beer...
                 # :::::::::::::::::::::::::::
                 print(r"\specialbeer{Regular Beer}", file=out)
-                for i in beers:
-                    if i.category in ["Lager"] and i.name != beerOfTheWeek and i.uuid in standardBeer and int(i.balance) > 0:
-                        i.printLatex(type, out)
+                self._printTypes(type, beers, out, weekly=beerOfTheWeek, standardList=standardBeer, regular=True)
                 
                 # :::::::::::::::::::::::::::
                 # ...Printing Guesting Beer..
                 # :::::::::::::::::::::::::::
                 print(r"\specialbeer{Guesting Beer}", file=out)
-                for i in self.products:
-                    if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid not in standardBeer and int(i.balance) > 0:
-                        i.printLatex(type, out)
+                self._printTypes(type, beers, out, weekly=beerOfTheWeek, standardList=standardBeer)
 
                     
         elif type == "cider":
