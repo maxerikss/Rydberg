@@ -120,6 +120,9 @@ class ProductList:
         if type == "beer":
             print(r"\begin{beerSection}{Beer}{Style}{Price}" + "\n", file=out)
             
+            # :::::::::::::::::::::::::::
+            # .Printing Beer of the Week.
+            # :::::::::::::::::::::::::::
             print(r"\specialbeer{Beer of the Week}", file=out)
 
             print(r"What should be the beer of the week?")
@@ -129,17 +132,26 @@ class ProductList:
             for i in self.products:
                 if i.name == beerOfTheWeek:
                     i.printLatex(type, out)
-
-            print(r"\specialbeer{Regular Beer}", file=out)
+            
+            # :::::::::::::::::::::::::::
+            # ....Reading Regular Beer...
+            # :::::::::::::::::::::::::::
             standardBeer = []
             with open("beer.standard", "r") as standard:
                 for line in standard:
                     standardBeer.append(line.strip())
-            
+
+                # :::::::::::::::::::::::::::
+                # ...Printing Regular Beer...
+                # :::::::::::::::::::::::::::
+                print(r"\specialbeer{Regular Beer}", file=out)
                 for i in self.products:
                     if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid in standardBeer and int(i.balance) > 0:
                         i.printLatex(type, out)
                 
+                # :::::::::::::::::::::::::::
+                # ...Printing Guesting Beer..
+                # :::::::::::::::::::::::::::
                 print(r"\specialbeer{Guesting Beer}", file=out)
                 for i in self.products:
                     if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid not in standardBeer and int(i.balance) > 0:
