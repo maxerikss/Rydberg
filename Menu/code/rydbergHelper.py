@@ -159,9 +159,24 @@ class ProductList:
                     
         elif type == "cider":
             print(r"\begin{menuSection}{Cider}" + "\n", file=out)
+            
+            # :::::::::::::::::::::::::::
+            # ......Printing Cider.......
+            # :::::::::::::::::::::::::::
+            print(r"\specialbeero{Cider}", file=out)
             for i in self.products:
-                if i.category in ["Cider"]:
+                if i.category in ["Cider"] and int(i.balance) > 0:
                     i.printLatex(type, out)
+
+            # :::::::::::::::::::::::::::
+            # ...Printing Mixed Drinks...
+            # :::::::::::::::::::::::::::
+            print(r"\specialbeer{Mixed Drinks}", file=out)
+            for i in self.products:
+                if i.category in ["Mixed Drinks"] and int(i.balance) > 0:
+                    i.printLatex(type, out)
+
+
         elif type == "wine":
             print(r"\begin{beerSection}{Wine}{Style}{Price}" + "\n", file=out)
             for i in self.products:
@@ -191,4 +206,4 @@ else:
     with open("beer.tex", "w") as beer, open("cider.tex", "w") as cider, open("wine.tex", "w") as wine:
         products.printLatex("beer", beer)
         products.printLatex("cider", cider)
-        products.printLatex("wine", wine)
+        #products.printLatex("wine", wine)
