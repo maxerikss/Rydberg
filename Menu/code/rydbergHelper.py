@@ -123,7 +123,7 @@ class ProductList:
             print(r"\specialbeer{Beer of the Week}", file=out)
 
             print(r"What should be the beer of the week?")
-            names = [k.name for k in self.products if k.category in ["Beer"]]
+            names = [k.name for k in self.products if k.category in ["Beer"] and int(k.balance) > 0]
             beerMenu = TerminalMenu(names)
             beerOfTheWeek = names[beerMenu.show()] 
             for i in self.products:
@@ -137,12 +137,12 @@ class ProductList:
                     standardBeer.append(line.strip())
             
                 for i in self.products:
-                    if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid in standardBeer:
+                    if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid in standardBeer and int(i.balance) > 0:
                         i.printLatex(type, out)
                 
                 print(r"\specialbeer{Guesting Beer}", file=out)
                 for i in self.products:
-                    if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid not in standardBeer:
+                    if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid not in standardBeer and int(i.balance) > 0:
                         i.printLatex(type, out)
 
                     
