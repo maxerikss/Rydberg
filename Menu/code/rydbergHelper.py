@@ -131,9 +131,20 @@ class ProductList:
                     i.printLatex(type, out)
 
             print(r"\specialbeer{Regular Beer}", file=out)
-            for i in self.products:
-                if i.category in ["Beer"] and i.name != beerOfTheWeek:
-                    i.printLatex(type, out)
+            standardBeer = []
+            with open("beer.standard", "r") as standard:
+                for line in standard:
+                    standardBeer.append(line.strip())
+            
+                for i in self.products:
+                    if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid in standardBeer:
+                        i.printLatex(type, out)
+                
+                print(r"\specialbeer{Guesting Beer}", file=out)
+                for i in self.products:
+                    if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid not in standardBeer:
+                        i.printLatex(type, out)
+
                     
         elif type == "cider":
             print(r"\begin{menuSection}{Cider}" + "\n", file=out)
