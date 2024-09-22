@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys,os
 import requests
 import pandas as pd
@@ -20,7 +21,7 @@ postHeaders = {
 postData = {
     "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
     "client_id": f"{client_ID}",
-    "assertion": f"{API_key}"     
+    "assertion": f"{API_key}"      
 }
 
 access = requests.post(postUrl, headers=postHeaders, data=postData)
@@ -58,8 +59,6 @@ productsData = libraryResponse.json().get("products")
 stockData = []
 for i in stockResponse:
     stockData.extend(i.json())
-
-
 
 # ==================================================================
 # ----------------------- Class Definitions-------------------------
