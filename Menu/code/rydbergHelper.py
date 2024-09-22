@@ -108,7 +108,7 @@ class ProductList:
             for j in stockData:
                 uuid = j.get("productUuid")
                 balance = j.get("balance")
-                if newProduct.uuid == uuid and newProduct.category in ["Beer", "Cider", "Wine"]:
+                if newProduct.uuid == uuid and newProduct.category in ["Beer", "Cider", "Mixed Drink" ,"Wine"]:
                     newProduct.balance = balance
 
             self.products.append(newProduct)
@@ -173,7 +173,7 @@ class ProductList:
             # :::::::::::::::::::::::::::
             print(r"\specialbeer{Mixed Drinks}", file=out)
             for i in self.products:
-                if i.category in ["Mixed Drinks"] and int(i.balance) > 0:
+                if i.category in ["Mixed Drink"] and int(i.balance) > 0:
                     i.printLatex(type, out)
 
 
