@@ -6,6 +6,13 @@ from typing import *
 from simple_term_menu import TerminalMenu
 
 # ==================================================================
+# ------------------------- Constants ------------------------------
+# ==================================================================
+
+beerTypes = ["Beer", "Pale Ale", "Ale", "Belgian Ale", "Stout", "Porter", "Lager", "Weissbier", "Spiced Beer"]
+inventoryCategories = ["Beer", "Pale Ale", "Ale", "Belgian Ale", "Stout", "Porter", "Lager", "Weissbier", "Spiced Beer", "Cider", "Mixed Drink" ,"Wine"]
+
+# ==================================================================
 # ----------------------- Reading API ------------------------------
 # ==================================================================
 
@@ -92,6 +99,12 @@ class ProductList:
     def __init__(self):
         self.products: List[Product] = []
 
+    def _printTypes(self, type):
+        if type == "beer":
+           
+            
+
+
     def add(self, newProduct):
         self.products.append(newProduct)
     
@@ -108,7 +121,7 @@ class ProductList:
             for j in stockData:
                 uuid = j.get("productUuid")
                 balance = j.get("balance")
-                if newProduct.uuid == uuid and newProduct.category in ["Beer", "Cider", "Mixed Drink" ,"Wine"]:
+                if newProduct.uuid == uuid and newProduct.category in inventoryCategories:
                     newProduct.balance = balance
 
             self.products.append(newProduct)
@@ -119,13 +132,14 @@ class ProductList:
         if type == "beer":
             print(r"\begin{beerSection}{Beer}{Style}{Price}" + "\n", file=out)
             
+            beers = [k for k in self.products if k.category in beerTypes]
             # :::::::::::::::::::::::::::
             # .Printing Beer of the Week.
             # :::::::::::::::::::::::::::
             print(r"\specialbeer{Beer of the Week}", file=out)
 
             print(r"What should be the beer of the week?")
-            names = [k.name for k in self.products if k.category in ["Beer"] and int(k.balance) > 0]
+            names = [k.name for k in beers if int(k.balance) > 0]
             beerMenu = TerminalMenu(names)
             beerOfTheWeek = names[beerMenu.show()] 
             for i in self.products:
@@ -144,8 +158,8 @@ class ProductList:
                 # ...Printing Regular Beer...
                 # :::::::::::::::::::::::::::
                 print(r"\specialbeer{Regular Beer}", file=out)
-                for i in self.products:
-                    if i.category in ["Beer"] and i.name != beerOfTheWeek and i.uuid in standardBeer and int(i.balance) > 0:
+                for i in beers:
+                    if i.category in ["Lager"] and i.name != beerOfTheWeek and i.uuid in standardBeer and int(i.balance) > 0:
                         i.printLatex(type, out)
                 
                 # :::::::::::::::::::::::::::
@@ -194,7 +208,7 @@ products.addInventory(productsData, stockData)
 if len(sys.argv) > 1:
     if sys.argv[1] == "update":
         print("What should be the standard beer?")
-        names = [k.name for k in products.products if k.category in ["Beer"]]
+        names = [k.name for k in products.products if k.category in beerTypes]
         standardMenu = TerminalMenu(names, multi_select=True, show_multi_select_hint=True)
         standardBeer = standardMenu.show()
         with open("beer.standard", "w") as out:
