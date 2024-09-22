@@ -153,7 +153,20 @@ class ProductList:
 
 products = ProductList()
 products.addInventory(productsData, stockData)
-with open("beer.tex", "w") as beer, open("cider.tex", "w") as cider, open("wine.tex", "w") as wine:
-    products.printLatex("beer", beer)
-    products.printLatex("cider", cider)
-    products.printLatex("wine", wine)
+
+if len(sys.argv) > 1:
+    if sys.argv[1] == "update":
+        print("What should be the standard beer?")
+        names = [k.name for k in products.products if k.category in ["Beer"]]
+        standardMenu = TerminalMenu(names, multi_select=True, show_multi_select_hint=True)
+        standardBeer = standardMenu.show()
+        with open("beer.standard", "w") as out:
+            for i in standardBeer:
+                for j in products.products:
+                    if names[i] == j.name:
+                        print(j.uuid, file=out)
+else:
+    with open("beer.tex", "w") as beer, open("cider.tex", "w") as cider, open("wine.tex", "w") as wine:
+        products.printLatex("beer", beer)
+        products.printLatex("cider", cider)
+        products.printLatex("wine", wine)
