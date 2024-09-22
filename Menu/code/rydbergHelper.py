@@ -141,14 +141,14 @@ class ProductList:
         if type == "beer":
             print(r"\begin{beerSection}{Beer}{Style}{Price}" + "\n", file=out)
             
-            beers = [k for k in self.products if k.category in beerTypes]
+            beers = [product for product in self.products if product.category in beerTypes]
             # :::::::::::::::::::::::::::
             # .Printing Beer of the Week.
             # :::::::::::::::::::::::::::
             print(r"\specialbeer{Beer of the Week}", file=out)
 
             print(r"What should be the beer of the week?")
-            names = [k.name for k in beers if int(k.balance) > 0]
+            names = [beer.name for beer in beers if int(beer.balance) > 0]
             beerMenu = TerminalMenu(names)
             beerOfTheWeek = names[beerMenu.show()] 
             for i in self.products:
@@ -213,7 +213,7 @@ products.addInventory(productsData, stockData)
 if len(sys.argv) > 1:
     if sys.argv[1] == "update":
         print("What should be the standard beer?")
-        names = [k.name for k in products.products if k.category in beerTypes]
+        names = [product.name for product in products.products if product.category in beerTypes]
         standardMenu = TerminalMenu(names, multi_select=True, show_multi_select_hint=True)
         standardBeer = standardMenu.show()
         with open("beer.standard", "w") as out:
