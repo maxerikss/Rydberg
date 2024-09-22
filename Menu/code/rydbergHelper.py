@@ -2,6 +2,7 @@ import sys,os
 import requests
 import pandas as pd
 from typing import *
+from simple_term_menu import TerminalMenu
 
 # ==================================================================
 # ----------------------- Reading API ------------------------------
@@ -118,9 +119,22 @@ class ProductList:
     def printLatex(self, type, out):
         if type == "beer":
             print(r"\begin{beerSection}{Beer}{Style}{Price}" + "\n", file=out)
+            
+            print(r"\specialbeer{Beer of the Week}", file=out)
+
+            print(r"What should be the beer of the week?")
+            names = [k.name for k in self.products if k.category in ["Beer"]]
+            beerMenu = TerminalMenu(names)
+            beerOfTheWeek = names[beerMenu.show()] 
             for i in self.products:
-                if i.category in ["Beer"]:
+                if i.name == beerOfTheWeek:
                     i.printLatex(type, out)
+
+            print(r"\specialbeer{Regular Beer}", file=out)
+            for i in self.products:
+                if i.category in ["Beer"] and i.name != beerOfTheWeek:
+                    i.printLatex(type, out)
+                    
         elif type == "cider":
             print(r"\begin{menuSection}{Cider}" + "\n", file=out)
             for i in self.products:

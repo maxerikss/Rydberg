@@ -2,7 +2,7 @@
 This python script will read the API of Zettle and should create latex files for the menu items in stock, this is mainly for Beer and Cider, but also wine, since these are the only items we track the inventory of in Zettle.
 
 ## What to fix - higher priority
-[] Some way to set beer of the week
+[x] Some way to set beer of the week
 
 [] Some way to fix the standard Beers
 
