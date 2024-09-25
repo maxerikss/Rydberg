@@ -110,9 +110,6 @@ class ProductList:
                     for beer in productList:
                         if beer.category == style and beer.name != weekly and beer.uuid not in standardList and int(beer.balance) > 0:
                             beer.printLatex(type, out)
-           
-            
-
 
     def add(self, newProduct):
         self.products.append(newProduct)
@@ -145,7 +142,7 @@ class ProductList:
             # :::::::::::::::::::::::::::
             # .Printing Beer of the Week.
             # :::::::::::::::::::::::::::
-            print(r"\specialbeer{Beer of the Week}", file=out)
+            print(r"\specialBeer{Beer of the Week}", file=out)
 
             print(r"What should be the beer of the week?")
             names = [beer.name for beer in beers if int(beer.balance) > 0]
@@ -166,14 +163,16 @@ class ProductList:
                 # :::::::::::::::::::::::::::
                 # ...Printing Regular Beer...
                 # :::::::::::::::::::::::::::
-                print(r"\specialbeer{Regular Beer}", file=out)
+                print(r"\specialBeer{Regular Beer}", file=out)
                 self._printTypes(type, beers, out, weekly=beerOfTheWeek, standardList=standardBeer, regular=True)
                 
                 # :::::::::::::::::::::::::::
                 # ...Printing Guesting Beer..
                 # :::::::::::::::::::::::::::
-                print(r"\specialbeer{Guesting Beer}", file=out)
+                print(r"\specialBeer{Guesting Beer}", file=out)
                 self._printTypes(type, beers, out, weekly=beerOfTheWeek, standardList=standardBeer)
+
+            print(r"\end{beerSection}" + "\n", file=out)
 
                     
         elif type == "cider":
@@ -182,7 +181,7 @@ class ProductList:
             # :::::::::::::::::::::::::::
             # ......Printing Cider.......
             # :::::::::::::::::::::::::::
-            print(r"\specialbeero{Cider}", file=out)
+            print(r"\specialBeer{Cider}", file=out)
             for i in self.products:
                 if i.category in ["Cider"] and int(i.balance) > 0:
                     i.printLatex(type, out)
@@ -190,10 +189,12 @@ class ProductList:
             # :::::::::::::::::::::::::::
             # ...Printing Mixed Drinks...
             # :::::::::::::::::::::::::::
-            print(r"\specialbeer{Mixed Drinks}", file=out)
+            print(r"\specialBeer{Mixed Drinks}", file=out)
             for i in self.products:
                 if i.category in ["Mixed Drink"] and int(i.balance) > 0:
                     i.printLatex(type, out)
+
+            print(r"\end{menuSection}" + "\n", file=out)
 
 
         elif type == "wine":
@@ -201,6 +202,8 @@ class ProductList:
             for i in self.products:
                 if i.category in ["Wine"]:
                     i.printLatex(type, out)
+            print(r"\end{beerSection}" + "\n", file=out)
+
                 
 
 # ==================================================================
@@ -222,7 +225,6 @@ if len(sys.argv) > 1:
                     if names[i] == j.name:
                         print(j.uuid, file=out)
 else:
-    with open("beer.tex", "w") as beer, open("cider.tex", "w") as cider, open("wine.tex", "w") as wine:
+    with open("../Menu/Beer.tex", "w") as beer, open("../Menu/Cider.tex", "w") as cider:
         products.printLatex("beer", beer)
         products.printLatex("cider", cider)
-        #products.printLatex("wine", wine)
